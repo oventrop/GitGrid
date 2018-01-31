@@ -23,30 +23,32 @@ public class DriverFactory {
 	}
 
 	public WebDriver getRemoteDriver() {
-
-		switch (browser) {
-		case "firefox":
-			try {
-				FirefoxOptions ffOptions = new FirefoxOptions();
-				ffOptions.setCapability(platform, Platform.fromString(platform));
-				wd = new RemoteWebDriver(new URL(HUB_URL), ffOptions);
-			} catch (UnreachableBrowserException | MalformedURLException e) {
-				System.out.println("Server/hub is unavaliable, please try later");
+		if (wd == null) {
+			switch (browser) {
+			case "firefox":
+				try {
+					FirefoxOptions ffOptions = new FirefoxOptions();
+					ffOptions.setCapability(platform, Platform.fromString(platform));
+					wd = new RemoteWebDriver(new URL(HUB_URL), ffOptions);
+				} catch (UnreachableBrowserException | MalformedURLException e) {
+					System.out.println("Server/hub is unavaliable, please try later");
+				}
+				break;
+			case "chrome":
+				try {
+					ChromeOptions chromeOptions = new ChromeOptions();
+					chromeOptions.setCapability(platform, Platform.fromString(platform));
+					wd = new RemoteWebDriver(new URL(HUB_URL), chromeOptions);
+				} catch (UnreachableBrowserException | MalformedURLException e) {
+					System.out.println("Server/hub is unavaliable, please try later");
+				}
+				break;
+			default:
+				throw new IllegalArgumentException("Selected browser is unavaliable");
 			}
-			break;
-		case "chrome":
-			try {
-				ChromeOptions chromeOptions = new ChromeOptions();
-				chromeOptions.setCapability(platform, Platform.fromString(platform));
-				wd = new RemoteWebDriver(new URL(HUB_URL), chromeOptions);
-			} catch (UnreachableBrowserException | MalformedURLException e) {
-				System.out.println("Server/hub is unavaliable, please try later");
-			}
-			break;
-		default:
-			throw new IllegalArgumentException("Selected browser is unavaliable");
-		}
-		return wd;
+			return wd;
+		} else
+			return wd;
 	}
 
 }
