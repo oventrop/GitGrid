@@ -1,28 +1,24 @@
 package com.epam.tat18.pageobjects;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 
 public abstract class AbstractPage {
 
+	WebDriver driver;
+	WebDriverWait wait;
 
-	protected WebDriver driver;
-	protected static WebDriverWait wait1; 
-	
-	public AbstractPage (WebDriver driver) {
+	public AbstractPage(WebDriver driver) {
 		this.driver = driver;
-		wait1 = new  WebDriverWait(driver, 15);
 		PageFactory.initElements(driver, this);
 	}
-	
-	
 
-	public WebDriver getDriver() {
-		return this.driver;
+	public void waitForElementVisibility(WebElement element) {
+		wait = new WebDriverWait(driver, 10);
+		wait.until(ExpectedConditions.visibilityOf(element));
 	}
-	
-	
 
 }

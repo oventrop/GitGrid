@@ -23,13 +23,13 @@ public class GitRepositoryPage extends AbstractPage {
 
 	public GitRepositoryPage openDropdownMenu() {
 
-		wait1.until(ExpectedConditions.visibilityOf(dropdownMenu));
+		waitForElementVisibility(dropdownMenu);
 		dropdownMenu.click();
 		return new GitRepositoryPage(driver);
 	}
 	
 	public GitMainPage logoutFromRepository () {
-		wait1.until(ExpectedConditions.visibilityOf(logoutButton));
+		waitForElementVisibility(logoutButton);
 		logoutButton.click();
 		return new GitMainPage(driver);
 	}

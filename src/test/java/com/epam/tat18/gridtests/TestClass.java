@@ -1,13 +1,8 @@
 package com.epam.tat18.gridtests;
 
-import java.net.MalformedURLException;
-import java.util.logging.Level;
-
-import org.openqa.selenium.By;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.logging.LogType;
-import org.openqa.selenium.logging.LoggingPreferences;
-import org.openqa.selenium.logging.Logs;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
@@ -21,33 +16,29 @@ public class TestClass {
 
 	private final static String LOGIN_EMAIL = "d.galievsky@gmail.com";
 	private final static String LOGIN_PASSWORD = "master1";
-
 	private static WebDriver wd;
+	public Logger logger = LogManager.getLogger(TestClass.class);
 
 	@Parameters({ "browser", "platform" })
 	@BeforeClass
-	public void startTest(String browser, String platform) throws MalformedURLException {
-	//	wd = new Select().chooseRemoteBrowser(browser, platform);
-
-		 wd = new Select().chooseLocalBrowser(browser);
+	public void startTest(String browser, String platform) {
+		
+		wd = new DriverFactory(browser, platform).getRemoteDriver();
+		logger.info("Driver created!");
 	}
 
 	@Test
 	public void openGitHub() {
-		wd.get("https://github.com/");
-		wd.manage().window().maximize();
-		GitMainPage mainPage = new GitMainPage(wd);
-		mainPage.pressSignInButton();
-		GitLoginPage loginPage = new GitLoginPage(wd);
-		loginPage.enterLoginPassword(LOGIN_EMAIL, LOGIN_PASSWORD);
-		GitRepositoryPage repoPage = new GitRepositoryPage(wd);
-		repoPage.openDropdownMenu();
-		repoPage.logoutFromRepository();
-	}
 
-	public boolean isElementPresent(By by) {
-		return wd.findElement(by).isDisplayed();
-	}
+		wd.get("http:/github.com");
+		logger.info(wd.getCurrentUrl(), wd );
+		wd.manage().window().maximize();
+		new GitMainPage(wd).pressSignInButton();
+		GitLoginPage loginPage = new GitLoginPage(wd);
+		loginPage.enterLogin(LOGIN_EMAIL);
+		loginPage.enterPassword(LOGIN_PASSWORD);
+		new GitRepositoryPage(wd).openDropdownMenu().logoutFromRepository();
+		}
 
 	@AfterClass(description = "Close browser")
 	public void closeBrowser() {

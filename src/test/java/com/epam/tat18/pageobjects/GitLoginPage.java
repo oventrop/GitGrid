@@ -7,8 +7,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class GitLoginPage extends AbstractPage {
 
-	public GitLoginPage(WebDriver driver) {
-		super(driver);
+	public GitLoginPage(WebDriver wd) {
+		super(wd);
 	}
 
 	private static final String LOGIN_FIELD = "login_field";
@@ -23,24 +23,29 @@ public class GitLoginPage extends AbstractPage {
 	@FindBy(xpath = "//*[@name = 'commit']")
 	private WebElement submitButton;
 
-	//*[@id="login"]/form/div[4]/input[3]
-	
-	
-	public GitRepositoryPage enterLoginPassword(String login, String password) {
-	
-		wait1.until(ExpectedConditions.visibilityOf(loginField));
+	// *[@id="login"]/form/div[4]/input[3]
+
+	public GitRepositoryPage enterLogin(String login) {
+
+		waitForElementVisibility(loginField);
+		
 		loginField.click();
 		loginField.clear();
 		loginField.sendKeys(login);
+		return new GitRepositoryPage(driver);
+	}
 
+	public GitRepositoryPage enterPassword(String password) {
+		waitForElementVisibility(passwordField);
 		passwordField.click();
 		passwordField.clear();
 		passwordField.sendKeys(password);
-		
+
 		submitButton.click();
 
 		return new GitRepositoryPage(driver);
 
 	}
-
+	
+	
 }
