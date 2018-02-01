@@ -1,5 +1,6 @@
 package com.epam.tat18.pageobjects;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -21,5 +22,4 @@ public class GitMainPage extends AbstractPage {
 		return new GitLoginPage(driver);
 
 	}
-
 }

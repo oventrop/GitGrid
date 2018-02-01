@@ -25,27 +25,21 @@ public class GitLoginPage extends AbstractPage {
 
 	// *[@id="login"]/form/div[4]/input[3]
 
-	public GitRepositoryPage enterLogin(String login) {
+	public GitRepositoryPage enterCredentials(String login, String password) {
 
 		waitForElementVisibility(loginField);
 		
 		loginField.click();
 		loginField.clear();
 		loginField.sendKeys(login);
-		return new GitRepositoryPage(driver);
-	}
-
-	public GitRepositoryPage enterPassword(String password) {
-		waitForElementVisibility(passwordField);
+		
 		passwordField.click();
 		passwordField.clear();
 		passwordField.sendKeys(password);
 
 		submitButton.click();
-
+		
 		return new GitRepositoryPage(driver);
-
 	}
-	
 	
 }
